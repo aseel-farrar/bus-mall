@@ -12,10 +12,10 @@ body{
 
 header{
   background:#413c69;
-  display: flex;
+  display: grid;
+  grid-template-columns: 100px 1fr;
   align-items: center;
-  justify-items: space-between;
-  text-align: center;
+  justify-content:right;
 }
 
 nav a{

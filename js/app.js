@@ -19,8 +19,7 @@ let middleIndex;
 let rightIndex;
 let validClicks = 25;
 let clicksCounter = 0;
-
-
+//Product constructor
 function Product( name ) {
   this.name = name;
   this.img = `./img/${name}`;
@@ -28,8 +27,7 @@ function Product( name ) {
   this.clicks = 0;
   Product.allProducts.push( this );
 }
-
-
+//render funvtion
 function render() {
   resultButton.style.display = 'none';
 
@@ -58,13 +56,11 @@ function render() {
   Product.allProducts[middleImageIndex].shown++;
   Product.allProducts[rightImageIndex].shown++;
 }
-
-
+//function to generate random
 function randomNumber( min, max ) {
   return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
 }
-
-
+// listener for image clicks
 imageSection.addEventListener( 'click', handelClick );
 function handelClick( event ) {
   if ( clicksCounter < validClicks - 1 ){
@@ -87,7 +83,7 @@ function handelClick( event ) {
     resultButton.style.display = 'block';
   }
 }
-
+// listener for button click
 resultButton.addEventListener( 'click', handelButtonClick );
 function handelButtonClick( ){
   const resultSection = document.getElementById( 'resultSection' );
