@@ -13,6 +13,9 @@ const middleImage = document.getElementById( 'middleImage' );
 const rightImage = document.getElementById( 'rightImage' );
 
 Product.allProducts = [];
+let productsNames = [];
+let productsVotes = [];
+let productsShows = [];
 
 let leftIndex;
 let middleIndex;
@@ -27,14 +30,13 @@ function Product( name ) {
   this.clicks = 0;
   Product.allProducts.push( this );
 }
-//render funvtion
+//render function
 function render() {
   resultButton.style.display = 'none';
 
   let leftImageIndex;
   let middleImageIndex;
   let rightImageIndex;
-
   leftImageIndex = randomNumber( 0, products.length - 1 );
   leftImage.src = Product.allProducts[leftImageIndex].img;
   leftImage.alt = Product.allProducts[leftImageIndex].name;
@@ -58,14 +60,19 @@ function render() {
 }
 //function to generate random
 function randomNumber( min, max ) {
-  return Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+  let newIndex = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+
+  while ( newIndex === leftIndex || newIndex === middleIndex || newIndex === rightIndex ) {
+    newIndex = Math.floor( Math.random() * ( max - min + 1 ) ) + min;
+  }
+  return newIndex;
 }
 // listener for image clicks
 imageSection.addEventListener( 'click', handelClick );
 function handelClick( event ) {
-  if ( clicksCounter < validClicks - 1 ){
+  if ( clicksCounter < validClicks - 1 ) {
     const clickedElement = event.target;
-    clicksCounter ++;
+    clicksCounter++;
 
     if ( clickedElement.id === 'leftImage' ) {
       Product.allProducts[leftIndex].clicks += 1;
@@ -78,19 +85,21 @@ function handelClick( event ) {
     }
     render();
   }
-  else{
+  else {
     imageSection.removeEventListener( 'click', handelClick );
     resultButton.style.display = 'block';
+    chartRender();
+
   }
 }
 // listener for button click
 resultButton.addEventListener( 'click', handelButtonClick );
-function handelButtonClick( ){
+function handelButtonClick() {
   const resultSection = document.getElementById( 'resultSection' );
   const ulElement = document.createElement( 'ul' );
   resultSection.appendChild( ulElement );
 
-  for( let i = 0; i < Product.allProducts.length; i++ ){
+  for ( let i = 0; i < Product.allProducts.length; i++ ) {
     const liElement = document.createElement( 'li' );
     ulElement.appendChild( liElement );
     liElement.textContent = `${Product.allProducts[i].name.slice( 0, -4 )} had ${Product.allProducts[i].clicks} votes, and was seen ${Product.allProducts[i].shown} times.`;
@@ -99,9 +108,51 @@ function handelButtonClick( ){
   resultButton.removeEventListener( 'click', handelButtonClick );
 }
 
+// function to render the chart
+function chartRender() {
+  for( let i = 0; i < Product.allProducts.length; i++ ) {
+    productsNames.push( Product.allProducts[i].name.slice( 0,-4 ) );
+    productsVotes.push( Product.allProducts[i].clicks );
+    productsShows.push( Product.allProducts[i].shown );
+  }
+
+  let ctx = document.getElementById( 'myChart' ).getContext( '2d' );
+  new Chart( ctx, {
+    type: 'bar',
+    data: {
+      labels: productsNames,
+      datasets: [
+        {
+          label: '# of Votes',
+          data: productsVotes,
+          backgroundColor: '#413c69',//
+          borderColor: '#a7c5eb',
+          borderWidth: 1
+        },
+        {
+          label: '# of Shows',
+          data: productsShows,
+          backgroundColor: '#a7c5eb',
+          borderColor: '#413c69',
+          borderWidth: 1
+        }],
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true,
+          }
+        }]
+      }
+    }
+  }
+  );
+}
 
 ///>>>>>>>>>>>>>>>>>>>>> MAIN <<<<<<<<<<<<<<<<<<<<<<<
 for ( let i = 0; i < products.length; i++ ) {
   new Product( products[i] );
 }
 render();
+
