@@ -27,6 +27,8 @@ nav a{
 
 body{
   background: linear-gradient( to top left, #413c69, #4a47a3, #709fb0, #a7c5eb);
+  align-items:flex-end;
+
 }
 
 .mainContainer img{
@@ -56,9 +58,10 @@ body{
 
 button{
   height: 30px;
-  background: #413c69;
+  background:#413c69;
   font-size: medium;
 }
+
 p{
   text-align: center;
   padding-top: 50px;
@@ -67,4 +70,8 @@ p{
 footer{
   align-items: center;
   background:#413c69;
+}
+
+#myChart{
+  color: black;
 }
