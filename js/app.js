@@ -13,6 +13,7 @@ const middleImage = document.getElementById( 'middleImage' );
 const rightImage = document.getElementById( 'rightImage' );
 
 Product.allProducts = [];
+
 let productsNames = [];
 let productsVotes = [];
 let productsShows = [];
@@ -89,7 +90,6 @@ function handelClick( event ) {
     imageSection.removeEventListener( 'click', handelClick );
     resultButton.style.display = 'block';
     chartRender();
-
   }
 }
 // listener for button click
@@ -125,7 +125,7 @@ function chartRender() {
         {
           label: '# of Votes',
           data: productsVotes,
-          backgroundColor: '#413c69',//
+          backgroundColor: '#413c69',
           borderColor: '#a7c5eb',
           borderWidth: 1
         },
@@ -149,10 +149,8 @@ function chartRender() {
   }
   );
 }
-
 ///>>>>>>>>>>>>>>>>>>>>> MAIN <<<<<<<<<<<<<<<<<<<<<<<
 for ( let i = 0; i < products.length; i++ ) {
   new Product( products[i] );
 }
 render();
-
