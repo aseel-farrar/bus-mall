@@ -89,7 +89,6 @@ function handelClick( event ) {
   else {
     imageSection.removeEventListener( 'click', handelClick );
     resultButton.style.display = 'block';
-    chartRender();
   }
 }
 // listener for button click
@@ -104,7 +103,7 @@ function handelButtonClick() {
     ulElement.appendChild( liElement );
     liElement.textContent = `${Product.allProducts[i].name.slice( 0, -4 )} had ${Product.allProducts[i].clicks} votes, and was seen ${Product.allProducts[i].shown} times.`;
   }
-
+  chartRender();
   resultButton.removeEventListener( 'click', handelButtonClick );
 }
 
@@ -141,6 +140,7 @@ function chartRender() {
       scales: {
         yAxes: [{
           ticks: {
+            fontColor: 'black',
             beginAtZero: true,
           }
         }],
