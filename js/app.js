@@ -12,6 +12,9 @@ const leftImage = document.getElementById( 'leftImage' );
 const middleImage = document.getElementById( 'middleImage' );
 const rightImage = document.getElementById( 'rightImage' );
 
+const resultSection = document.getElementById( 'resultSection' );
+
+
 Product.allProducts = [];
 
 let productsNames = [];
@@ -34,6 +37,7 @@ function Product( name ) {
 //render function
 function render() {
   resultButton.style.display = 'none';
+  // getData();
 
   let leftImageIndex;
   let middleImageIndex;
@@ -94,7 +98,9 @@ function handelClick( event ) {
 // listener for button click
 resultButton.addEventListener( 'click', handelButtonClick );
 function handelButtonClick() {
-  const resultSection = document.getElementById( 'resultSection' );
+
+  resultSection.innerHtml = '';
+
   const ulElement = document.createElement( 'ul' );
   resultSection.appendChild( ulElement );
 
@@ -105,8 +111,10 @@ function handelButtonClick() {
   }
   chartRender();
   resultButton.removeEventListener( 'click', handelButtonClick );
-}
 
+  localStorage.setItem( 'localStoredeProduct', JSON.stringify( Product.allProducts ) );
+
+}
 // function to render the chart
 function chartRender() {
   for( let i = 0; i < Product.allProducts.length; i++ ) {
@@ -155,8 +163,24 @@ function chartRender() {
   }
   );
 }
+// function to get the data from local storege
+function getData(){
+  const data = localStorage.getItem( 'localStoredeProduct' );
+
+  if ( data ){
+    const objectProducts = JSON.parse( data );
+    Product.allProducts = objectProducts;
+    console.log( objectProducts );
+  }
+}
+
+
 ///>>>>>>>>>>>>>>>>>>>>> MAIN <<<<<<<<<<<<<<<<<<<<<<<
+
 for ( let i = 0; i < products.length; i++ ) {
   new Product( products[i] );
 }
 render();
+
+getData();
+
