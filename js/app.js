@@ -143,6 +143,12 @@ function chartRender() {
           ticks: {
             beginAtZero: true,
           }
+        }],
+        xAxes: [{
+          ticks: {
+            fontColor: 'black',
+            beginAtZero: true,
+          }
         }]
       }
     }
